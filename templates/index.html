@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care-AI : 나의 만성질환 예측 리포트</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <section id="main-screen">
+            <div class="logo">Care-AI</div>
+            <h1>나의 건강 데이터로<br>미래의 질병 위험도를 예측해보세요.</h1>
+            <p>AI가 당신의 건강검진 데이터를 기반으로<br>주요 만성질환 발병 위험도를 분석해 드립니다.</p>
+            <button id="start-btn">내 위험도 분석하기</button>
+        </section>
+
+        <section id="form-screen" class="hidden">
+            <div class="logo">Care-AI</div>
+            <h2>🩺 건강 정보를 입력해주세요</h2>
+            <form id="health-form">
+                <div class="form-group">
+                    <label for="age">나이 (세)</label>
+                    <input type="number" id="age" required placeholder="예: 42">
+                </div>
+                <div class="form-group">
+                    <label for="bmi">BMI 지수</label>
+                    <input type="number" step="0.1" id="bmi" required placeholder="예: 24.5">
+                </div>
+                <div class="form-group">
+                    <label for="systolic_bp">수축기 혈압 (mmHg)</label>
+                    <input type="number" id="systolic_bp" required placeholder="예: 135">
+                </div>
+                <div class="form-group">
+                    <label for="blood_sugar">공복 혈당 (mg/dL)</label>
+                    <input type="number" id="blood_sugar" required placeholder="예: 110">
+                </div>
+                <div class="form-group">
+                    <label>흡연 여부</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="is_smoker" value="0" checked> 비흡연</label>
+                        <label><input type="radio" name="is_smoker" value="1"> 흡연</label>
+                    </div>
+                </div>
+                <button type="submit">결과 분석하기</button>
+            </form>
+        </section>
+
+        <section id="loading-screen" class="hidden">
+            <div class="logo">Care-AI</div>
+            <div class="loader"></div>
+            <h2>AI가 건강 데이터를<br>분석중입니다...</h2>
+        </section>
+
+        <section id="result-screen" class="hidden">
+            <div class="logo">Care-AI</div>
+            <h2>📊 OOO님의 분석 결과 리포트</h2>
+            <div class="result-box overall">
+                <h3>종합 건강 위험도</h3>
+                <p id="overall-status">⚠️ 주의</p>
+            </div>
+            <div class="result-box gauges">
+                <h3>주요 만성질환 위험도 (%)</h3>
+                <div class="gauge-item">
+                    <p>대사증후군</p>
+                    <div class="gauge-bar"><div id="metabolic-gauge" class="gauge-fill"></div></div>
+                    <span id="metabolic-score">75.0 %</span>
+                </div>
+                <div class="gauge-item">
+                    <p>고혈압</p>
+                    <div class="gauge-bar"><div id="hypertension-gauge" class="gauge-fill"></div></div>
+                    <span id="hypertension-score">68.0 %</span>
+                </div>
+                <div class="gauge-item">
+                    <p>당뇨병</p>
+                    <div class="gauge-bar"><div id="diabetes-gauge" class="gauge-fill"></div></div>
+                    <span id="diabetes-score">55.0 %</span>
+                </div>
+            </div>
+            <div class="result-box factors">
+                <h3>🔍 주요 위험 요인</h3>
+                <ul id="risk-factors">
+                    </ul>
+            </div>
+            <div class="result-box recommendations">
+                <h3>💡 맞춤 건강 가이드</h3>
+                <ul id="recommendations">
+                    </ul>
+            </div>
+            <div class="button-group">
+                <button id="restart-btn">다시 분석하기</button>
+                <a href="/dashboard" class="btn-secondary">전체 통계 대시보드 보기</a>
+            </div>
+        </section>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

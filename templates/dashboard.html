@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care-AI : 분석 대시보드</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container dashboard">
+        <div class="logo">Care-AI Dashboard</div>
+        <h1>서비스 이용 현황</h1>
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>총 이용자 수</h3>
+                <p id="total-users">0 명</p>
+            </div>
+            <div class="summary-card">
+                <h3>평균 위험도 점수</h3>
+                <p id="avg-risk-score">0 점</p>
+            </div>
+            <div class="summary-card">
+                <h3>평균 이용자 연령</h3>
+                <p id="avg-age">0 세</p>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <h3>연령대 분포</h3>
+                <canvas id="ageDistributionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>흡연자 비율</h3>
+                <canvas id="smokerDistributionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-container full-width">
+            <h3>BMI와 종합 위험도 관계 (산점도)</h3>
+            <canvas id="correlationChart"></canvas>
+        </div>
+        <a href="/" class="back-link">메인 페이지로 돌아가기</a>
+    </div>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
