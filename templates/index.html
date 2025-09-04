@@ -20,6 +20,10 @@
             <h2>🩺 건강 정보를 입력해주세요</h2>
             <form id="health-form">
                 <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" required placeholder="예: 홍길동">
+                </div>
+                <div class="form-group">
                     <label for="age">나이 (세)</label>
                     <input type="number" id="age" required placeholder="예: 42">
                 </div>
@@ -54,7 +58,7 @@
 
         <section id="result-screen" class="hidden">
             <div class="logo">Care-AI</div>
-            <h2>📊 OOO님의 분석 결과 리포트</h2>
+            <h2 id="result-title">📊 OOO님의 분석 결과 리포트</h2>
             <div class="result-box overall">
                 <h3>종합 건강 위험도</h3>
                 <p id="overall-status">⚠️ 주의</p>

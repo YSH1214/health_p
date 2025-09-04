@@ -29,8 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         showScreen(loadingScreen);
 
-        // 폼 데이터 가져오기
+        // 폼 데이터 가져오기 (name 추가)
         const userData = {
+            name: document.getElementById('name').value, // 👈 이름 데이터 추가
             age: document.getElementById('age').value,
             bmi: document.getElementById('bmi').value,
             systolic_bp: document.getElementById('systolic_bp').value,
@@ -48,7 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(userData),
             });
             const results = await response.json();
-            displayResults(results, userData.age);
+            // displayResults 함수에 사용자 이름 전달
+            displayResults(results, userData.name);
         } catch (error) {
             console.error('Error:', error);
             alert("분석 중 오류가 발생했습니다.");
@@ -62,9 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen(mainScreen);
     });
 
-    // 결과 표시 함수
-    function displayResults(results, age) {
-        document.querySelector('#result-screen h2').textContent = `📊 ${age}세 OOO님의 분석 결과 리포트`;
+    // 결과 표시 함수 (name 파라미터 추가)
+    function displayResults(results, name) {
+        // 👈 결과 리포트 제목을 동적으로 변경
+        document.getElementById('result-title').textContent = `📊 ${name}님의 분석 결과 리포트`;
         
         // 종합 위험도
         const overallStatus = document.getElementById('overall-status');

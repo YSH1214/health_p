@@ -5,15 +5,15 @@ import time
 
 # --- 데이터베이스 설정 ---
 app = Flask(__name__)
-# 현재 파일이 있는 경로를 기반으로 데이터베이스 경로 설정
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# --- 데이터베이스 모델 정의 ---
+# --- 데이터베이스 모델 정의 (name 컬럼 추가) ---
 class AnalysisResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False) # 👈 이름 컬럼 추가
     age = db.Column(db.Integer, nullable=False)
     bmi = db.Column(db.Float, nullable=False)
     systolic_bp = db.Column(db.Integer, nullable=False)
@@ -27,7 +27,7 @@ class AnalysisResult(db.Model):
 with app.app_context():
     db.create_all()
 
-# --- 분석 로직 ---
+# --- 분석 로직 (변경 없음) ---
 def analyze_risk(user_data):
     risk_scores = {}
     risk_factors = []
@@ -86,6 +86,9 @@ def index():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     user_data = request.json
+    
+    # 숫자형 데이터와 문자열 데이터를 분리하여 처리
+    user_name = user_data.pop('name', '사용자') # 이름 데이터 추출, 없으면 '사용자'
     user_data_numeric = {k: float(v) for k, v in user_data.items()}
     
     time.sleep(2)
@@ -93,7 +96,9 @@ def analyze():
     scores, factors = analyze_risk(user_data_numeric)
     recommendations = get_recommendations(factors)
     
+    # --- 데이터베이스에 결과 저장 (name 추가) ---
     new_result = AnalysisResult(
+        name=user_name, # 👈 이름 저장
         age=int(user_data_numeric['age']),
         bmi=user_data_numeric['bmi'],
         systolic_bp=int(user_data_numeric['systolic_bp']),
